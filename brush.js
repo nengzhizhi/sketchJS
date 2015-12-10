@@ -494,13 +494,16 @@
             e.postprocess && e.postprocess();
             a.rendering = !0;
             requestAnimationFrame(x);
-            if (e.speed && e.isFromBrowser) for (var m in a.intervals) if (f = h[m]) if (k = a.intervals[m], !(0 < f.length)) {
-              b.brush.state = "move";
-              var p = {
-                cmd: "L",
-                x: k.x,
-                y: k.y
-              };
+            if (e.speed && e.isFromBrowser) 
+              for (var m in a.intervals) 
+                if (f = h[m]) 
+                  if (k = a.intervals[m], !(0 < f.length)) {
+                    b.brush.state = "move";
+                    var p = {
+                      cmd: "L",
+                      x: k.x,
+                      y: k.y
+                    };
               c.dataChannel && c.dataChannel.send(["brush", e.type, "move," + k.x + "," + k.y + "," + m, eventjs.metaKey, eventjs.shiftKey]);
               f.push(p);
               f.path.push(p)
@@ -539,7 +542,7 @@
         } else console.warn("brush missing:", e, this)
       },
       z = function(b, c, d, e) {
-        var f = r.pointAtTime,
+        var f = r.pointAtTime,/*d is options, e is device */
           k = a.position,
           p = a.intervals,
           g = a.deviceProxy,
@@ -557,17 +560,19 @@
             da = isFinite(d.pathSmoothing),
             aa = isFinite(d.pathSimplify);
           d.dirtyRender = !1;
-          var R = c[t],
-            ea = R.length;
+          var R = c[t], ea = R.length;
           if (0 !== ea && (R.interval = R.interval || 0, d.path = R.path || R, d.finger = t, b = d.renderTo || d.ctx)) {
             b.save();
             l.useLocalAlpha[q] && (b.globalAlpha = s);
             b.globalCompositeOperation = v && !x ? "source-over" : z;
             if (d.render) {
-              if (da || aa) aa && (d.path = h.simplify(d.path, d.pathSimplify, !0)), da && (d.path = h.catmullRomSpline({
-                amount: d.pathSmoothing,
-                path: d.path
-              }));
+              /* h = g.module.vector */
+              if (da || aa) 
+                aa && (d.path = h.simplify(d.path, d.pathSimplify, !0)), 
+                da && (d.path = h.catmullRomSpline({
+                  amount: d.pathSmoothing,
+                  path: d.path
+                }));
               u = R[ea - 1];
               d.cmd = u && u.cmd;
               d.render(e || d);
